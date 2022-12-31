@@ -4,7 +4,6 @@ const files = require.context('./', true, /\.js$/);
 const fileList = files.keys().reduce((fileList, filePath) => {
   const fileName = filePath.replace(/^\.\/(.*)\.\w+$/, '$1');
   const value = files(filePath);
-  console.log('------------------------------', value);
   // 去除掉index.js本身
   if (fileName === 'index') {
     return fileList;
