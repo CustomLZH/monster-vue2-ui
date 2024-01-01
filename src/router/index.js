@@ -1,7 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import HelloWorld from '@/components/HelloWorld';
+import Home from '@/views/home/Home';
 import EnumerateInfo from '@/views/system/EnumerateInfo';
+import Inventory from '@/views/dsq/Inventory';
+import Recipe from '@/views/dsq/Recipe';
 
 Vue.use(Router);
 
@@ -10,13 +12,23 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld,
+      name: 'Home',
+      component: Home,
     },
     {
-      path: '/enumerate',
+      path: '/system/enumerate',
       name: 'EnumerateInfo',
       component: EnumerateInfo,
+    },
+    {
+      path: '/dsq/inventory',
+      name: 'Inventory',
+      component: Inventory,
+    },
+    {
+      path: '/dsq/recipe',
+      name: 'Recipe',
+      component: Recipe,
     },
   ],
 });

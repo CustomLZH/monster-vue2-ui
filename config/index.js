@@ -4,13 +4,32 @@
 
 const path = require('path')
 
+const targetUrl = 'http://localhost:9802'
+
 module.exports = {
   dev: {
 
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/monster-security': {
+        // 实际地址
+        target: targetUrl,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/monster-security': '/monster-security',   //重写接口
+        },
+      },
+      '/monster-dyson-sphere-program': {
+        // 实际地址
+        target: targetUrl,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/monster-dyson-sphere-program': '/monster-dyson-sphere-program',   //重写接口
+        },
+      },
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

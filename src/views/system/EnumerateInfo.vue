@@ -6,14 +6,30 @@
 <template>
   <div class="div_main">
     <el-container>
-      <el-header>Header</el-header>
+      <el-header height="50px">
+        <div class="div-header">
+          <el-form ref="form" :inline="true" size="small" :model="searchForm">
+            <el-form-item>
+              <el-input v-model="searchForm.enumerateNameOrType" placeholder="请输入枚举类型/名称">
+                <el-button slot="append" type="primary" @click="search" icon="el-icon-search"></el-button>
+              </el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" size="small" @click="add">新增</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+      </el-header>
       <el-container>
         <el-aside width="50%">
           <vxe-grid
             ref="vxeTypeRef"
             :border="true"
+            size="small"
+            :row-config="{isHover: true, isCurrent: true}"
             :columns="typeColumns"
-            :data="typeData">
+            :data="typeData"
+            @cell-click="cellClick">
               <template slot="handle" slot-scope="scope">
 
               </template>
@@ -23,6 +39,7 @@
           <vxe-grid
             ref="vxeDataRef"
             :border="true"
+            size="small"
             :columns="dataColumns"
             :data="infoData">
               <template slot="handle" slot-scope="scope">
@@ -32,17 +49,22 @@
         </el-main>
       </el-container>
     </el-container>
+    <enumerate-form ref="enumerateFormRef" @close="search"></enumerate-form>
   </div>
 </template>
 
 <script>
+import EnumerateForm from '@/components/system/EnumerateForm';
 export default {
-  components: {},
+  components: {EnumerateForm},
   props: {},
   data () {
     return {
       typeData: [],
       infoData: [],
+      searchForm: {
+        enumerateNameOrType: '',
+      },
       typeColumns: [
         {
           title: '序号',
@@ -59,7 +81,7 @@ export default {
         {
           field: 'enumerateName',
           title: '枚举名称',
-          width: 120,
+          minWidth: 80,
           align: 'center',
         },
         {
@@ -87,14 +109,14 @@ export default {
         },
         {
           field: 'enumerateKey',
-          title: '键值',
+          title: '键名',
           minWidth: 100,
           align: 'center',
         },
         {
           field: 'enumerateLabel',
-          title: '描述',
-          width: 120,
+          title: '键值',
+          minWidth: 80,
           align: 'center',
         },
         {
@@ -117,8 +139,29 @@ export default {
   },
   watch: {},
   computed: {},
-  methods: {},
-  created () {},
+  methods: {
+
+    init () {
+      this.search();
+    },
+
+    cellClick (data) {
+      console.log(data);
+    },
+    search () {
+      this.$api['enumerate/enumerateType'].getEnumerateTypePage({}).then((resp) => {
+        this.typeData = resp.data.records;
+      });
+    },
+
+    // 新增弹窗
+    add () {
+      this.$refs.enumerateFormRef.open();
+    },
+  },
+  created () {
+    this.init();
+  },
   mounted () {},
 };
 </script>
@@ -130,5 +173,19 @@ export default {
 
 .div_main .el-main {
   padding: 0 0 0 10px;
+}
+
+.div_main .el-header {
+  padding: 0;
+}
+
+.div-header {
+  width: 50%;
+  display: flex;
+  justify-content: flex-end;
+}
+.div-header .el-form-item {
+  margin-left: 10px;
+  margin-right: 0;
 }
 </style>

@@ -6,13 +6,23 @@ module.exports = defineConfig({
   devServer: {
     host: 'localhost',
     port: 8080,
-    open: false,
+    open: true,
     proxy: {
+      '/monster-security': {
+        // 实际地址
+        target: targetUrl,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/monster-security': '/monster-security'   //重写接口
+        },
+      },
       '/api': {
         // 实际地址
         target: targetUrl,
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
+        pathRewrite: {
+          '^/api': ''   //重写接口
+        },
       }
     }
   }
