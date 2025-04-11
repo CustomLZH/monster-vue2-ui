@@ -1,0 +1,15 @@
+// 主样式文件
+
+
+.main_content {
+  height: 100vh;
+  .main_content {
+    height: 100%;
+  }
+}
+
+.el-button {
+  padding-right: $button-md-padding;
+  padding-left: $button-md-padding;
+  margin-left: $button-sm-padding;
+}

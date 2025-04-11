@@ -1,0 +1,10 @@
+// 全局变量
+$breakpoints: (
+        'sm': 576px,
+        'md': 768px,
+        'lg': 992px,
+        'xl': 1200px
+) !default;
+
+$button-md-padding: 10px !default;
+$button-sm-padding: 5px !default;

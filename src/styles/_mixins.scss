@@ -1,0 +1,20 @@
+// 混合宏
+@use "sass:map";
+@use "variables" as *;  // 正确导入变量文件
+
+@mixin respond-to($breakpoint) {
+  @if map.has-key($breakpoints, $breakpoint) {
+    @media (min-width: #{map.get($breakpoints, $breakpoint)}) {
+      @content;
+    }
+  } @else {
+    @warn "无效的断点: #{$breakpoint}";
+  }
+}
+
+// 组件中使用
+.container {
+  @include respond-to('md') {
+    padding: 2rem;
+  }
+}

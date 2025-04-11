@@ -1,34 +1,72 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import Home from '@/views/home/Home';
-import EnumerateInfo from '@/views/system/EnumerateInfo';
-import Inventory from '@/views/dsq/Inventory';
-import Recipe from '@/views/dsq/Recipe';
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Layout from '@/layout'
+Vue.use(VueRouter)
 
-Vue.use(Router);
+const routes = [
+  {
+    path: '',
+    component: Layout,
+    redirect: 'home',
+    children: [
+      {
+        path: '/home',
+        component: () => import('@/views/home/Home'),
+        name: 'Home',
+        meta: { title: '首页', icon: 'dashboard', affix: true }
+      }
+    ]
+  },
+  {
+    path: '/home',
+    name: 'Home',
+    component: Layout,
+    children: [
+      {
+        path: '/home/:path(.*)',
+        component: () => import('@/views/home/Home')
+      }
+    ]
+  },
+  {
+    path: '/system',
+    name: 'EnumerateInfo',
+    component: Layout,
+    children: [
+      {
+        path: '/system/:path(.*)',
+        component: () => import('@/views/system/EnumerateInfo')
+      }
+    ]
+  },
+  {
+    path: '/dsq/inventory',
+    name: 'Inventory',
+    component: Layout,
+    children: [
+      {
+        path: '/dsq/:path(.*)',
+        component: () => import('@/views/dsq/Inventory')
+      }
+    ]
+  },
+  {
+    path: '/dsq/recipe',
+    name: 'Recipe',
+    component: Layout,
+    children: [
+      {
+        path: '/dsq/:path(.*)',
+        component: () => import('@/views/dsq/Recipe')
+      }
+    ]
+  }
+]
 
-export default new Router({
+const router = new VueRouter({
   mode: 'history',
-  routes: [
-    {
-      path: '/',
-      name: 'Home',
-      component: Home,
-    },
-    {
-      path: '/system/enumerate',
-      name: 'EnumerateInfo',
-      component: EnumerateInfo,
-    },
-    {
-      path: '/dsq/inventory',
-      name: 'Inventory',
-      component: Inventory,
-    },
-    {
-      path: '/dsq/recipe',
-      name: 'Recipe',
-      component: Recipe,
-    },
-  ],
-});
+  base: process.env.BASE_URL,
+  routes
+})
+
+export default router
